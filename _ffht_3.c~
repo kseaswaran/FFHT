@@ -75,7 +75,7 @@ static PyObject *ffht_fht(PyObject *self, PyObject *args) {
 	        return NULL;
 	    }
 	
-	    /* Check length */
+	    /* Check length is a power of two */
 	    npy_intp n = PyArray_DIM(arr, 0);
 	    if (n == 0 || (n & (n - 1))) {
 	        PyErr_SetString(PyExc_ValueError,
@@ -84,12 +84,13 @@ static PyObject *ffht_fht(PyObject *self, PyObject *args) {
 	        return NULL;
 	    }
 	
+	    /* Compute log2(n) */
 	    int log_n = 0;
 	    while ((1 << log_n) < n) {
 	        ++log_n;
 	    }
 	
-	    /* Get raw data pointer & call FHT */
+	    /* Get raw data pointer & call FHT implementation */
 	    void *raw_buffer = PyArray_DATA(arr);
 	    int res;
 	    if (type_num == NPY_FLOAT) {

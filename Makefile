@@ -1,7 +1,9 @@
 CC = gcc
 CFLAGS = -O3 -march=native -std=c99 -pedantic -Wall -Wextra -Wshadow -Wpointer-arith -Wcast-qual -Wstrict-prototypes -Wmissing-prototypes
+CXX = g++
+CXXFLAGS = -std=c++17 -O3 -march=native -pedantic -Wall -Wextra
 
-all: test_float test_double fast_copy.o fht.o
+all: test_float test_double fast_copy.o fht.o example_cpp
 
 OBJ := fast_copy.o fht.o
 
@@ -17,5 +19,8 @@ test_double_header_only: test_double_header_only.c
 test_float_header_only: test_double_header_only.c
 	$(CC) $< -o $@ $(CFLAGS)
 
+example_cpp: example_cpp.cpp
+	$(CXX) $< -o $@ $(CXXFLAGS)
+
 clean:
-	rm -f test_float test_double test_float_header_only test_double_header_only $(OBJ)
+	rm -f test_float test_double test_float_header_only test_double_header_only example_cpp $(OBJ)
